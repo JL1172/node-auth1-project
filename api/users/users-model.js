@@ -31,7 +31,10 @@ async function findById(user_id) {
  */
 async function add(user) {
   const [result] = await db("users").insert(user);
-  return await db("users").where("user_id",result).first();
+  
+  const result2 = await db("users").where("user_id",result).first();
+  const {user_id,username} = result2;
+  return {user_id : user_id,username : username}
 }
 
 // Don't forget to add these to the `exports` object so they can be required in other modules
