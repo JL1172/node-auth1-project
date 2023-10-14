@@ -31,19 +31,26 @@ server.use(cors());
 server.use(morgan("dev"));
 
 server.use(session({
-  name : "chocolatechip",
-  secret : "let me walk the dog",
-  cookie : {
-    maxAge : 1000 * 60 * 60,
-    secure : false,
-    httpOnly : true,
-},
-rolling : true,
-resave :false,
-saveUninitialized : false,
+  name: "chocolatechip",
+  secret: "let me walk the dog",
+  cookie: {
+    maxAge: 1000 * 60 * 60,
+    secure: false,
+    httpOnly: true,
+  },
+  rolling: true,
+  resave: false,
+  saveUninitialized: false,
+  store: new Store({
+    knex: require("../data/db-config"),
+    tablename: "session_storage",
+    sidfieldname: "sid",
+    createtable: true,
+    clearInterval: 1000 * 60 * 60
+  })
 }))
 
-server.use("/api/auth",AuthRouter)
+server.use("/api/auth", AuthRouter)
 
 server.get("/", (req, res) => {
   res.json({ api: "up" });
