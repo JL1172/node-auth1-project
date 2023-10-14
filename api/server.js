@@ -1,6 +1,6 @@
 const express = require("express");
 const AuthRouter = require("./auth/auth-router");
-
+const UserRouter = require("./users/users-router");
 
 
 const session = require("express-session");
@@ -51,6 +51,7 @@ server.use(session({
 }))
 
 server.use("/api/auth", AuthRouter)
+server.use("/api/users",UserRouter)
 
 server.get("/", (req, res) => {
   res.json({ api: "up" });
