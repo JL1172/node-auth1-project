@@ -2,8 +2,9 @@ const express = require("express");
 const AuthRouter = require("./auth/auth-router");
 
 
+
 const session = require("express-session");
-const Store = require("connect-session-knex")(session);
+const Store = require("connect-session-knex")(session);//eslint-disable-line
 
 
 const helmet = require("helmet");
@@ -33,20 +34,13 @@ server.use(session({
   name : "chocolatechip",
   secret : "let me walk the dog",
   cookie : {
-    maxAge : 1000 * 60 *60,
+    maxAge : 1000 * 60 * 60,
     secure : false,
-    httpOnly : true, //!might be prob
-  },
-  rolling : true,
-  resave : false,
-  saveUninitialized : false,
-  store : new Store ({
-    knex : require("knex"),
-    tablename : "session_storage",
-    sidfieldname : "sid",
-    createtable : true,
-    clearInterval : 1000 *60 *60,
-  })
+    httpOnly : true,
+},
+rolling : true,
+resave :false,
+saveUninitialized : false,
 }))
 
 server.use("/api/auth",AuthRouter)

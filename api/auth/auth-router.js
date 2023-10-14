@@ -68,7 +68,21 @@ router.post("/login", checkUsernameExists, async (req, res, next) => {
   }
  */
 
-
+router.get("/logout",async(req,res,next)=> {
+  try {
+    if (req.session && req.session.user) {
+      req.session.destroy(err=> {
+        if (err) {
+          res.json({message : "cannot leave"}) 
+        } else {
+          res.json({message : "logged out"})
+        }
+      })
+    } else {
+      res.status(200).json({message : "no session"})
+    }
+  } catch (err) {next(err)}
+})
 /**
   3 [GET] /api/auth/logout
 
